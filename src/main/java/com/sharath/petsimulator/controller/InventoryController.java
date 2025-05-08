@@ -1,0 +1,20 @@
+package com.sharath.petsimulator.controller;
+
+import com.sharath.petsimulator.inventory.Category;
+import com.sharath.petsimulator.service.InventoryService;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/inventory")
+@CrossOrigin
+public class InventoryController {
+    private final InventoryService svc;
+    public InventoryController(InventoryService svc) {
+        this.svc = svc;
+    }
+
+    @GetMapping
+    public Category inventory() {
+        return svc.getInventory();
+    }
+}
