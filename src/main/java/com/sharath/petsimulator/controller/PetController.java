@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/pet")
-@CrossOrigin
+@CrossOrigin(origins="*")
 public class PetController {
     private final PetService petService;
     private final PetTypeRepository typeRepo;
