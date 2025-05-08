@@ -42,4 +42,11 @@ public class PetType {
 
     public PetType(Object o, String cat, String s) {
     }
+
+    // real constructor
+    public PetType(Long id, String name, String imageUrl) {
+        this.id       = id;
+        this.name     = name;
+        this.imageUrl = imageUrl;
+    }
 }
