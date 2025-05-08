@@ -4,9 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@NoArgsConstructor @AllArgsConstructor
 @Table(name = "pet_type")
 public class PetType {
+    public PetType() {
+
+    }
+
     public Long getId() {
         return id;
     }
