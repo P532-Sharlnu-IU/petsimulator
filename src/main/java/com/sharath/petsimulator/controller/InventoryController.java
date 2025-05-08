@@ -1,5 +1,6 @@
 package com.sharath.petsimulator.controller;
 
+import com.sharath.petsimulator.dto.RestockRequest;
 import com.sharath.petsimulator.inventory.Category;
 import com.sharath.petsimulator.service.InventoryService;
 import org.springframework.web.bind.annotation.*;
@@ -16,5 +17,10 @@ public class InventoryController {
     @GetMapping
     public Category inventory() {
         return svc.getInventory();
+    }
+
+    @PostMapping("/restock")
+    public void restock(@RequestBody RestockRequest req) {
+        svc.restock(req.getName(), req.getQuantity());
     }
 }

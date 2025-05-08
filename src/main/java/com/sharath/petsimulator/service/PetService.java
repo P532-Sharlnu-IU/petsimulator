@@ -8,24 +8,32 @@ import org.springframework.stereotype.Service;
 import com.sharath.petsimulator.dto.*;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Service
 public class PetService {
     private final PetRepository petRepo;
     private final ActivePetSession session = ActivePetSession.getInstance();
     private final Invoker invoker = new Invoker();
     private final InventoryService inventoryService;
+    private final PetTypeRepository typeRepo;
 
-    public PetService(PetRepository petRepo, InventoryService inventoryService) {
+    public PetService(PetRepository petRepo, InventoryService inventoryService, PetTypeRepository typeRepo) {
         this.petRepo = petRepo;
         this.inventoryService = inventoryService;
+        this.typeRepo = typeRepo;
     }
 
-    public Pet adoptPet(String name) {
+    public Pet adoptPet(String name, Long typeId) {
+        PetType type = typeRepo.findById(typeId)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown typeId: " + typeId));
+
         Pet p = new Pet(name);
         p.setHunger(50);
         p.setHappiness(50);
         p.setHealth(100);
         p.setState(new HungryState());
+        p.setImageUrl(type.getImageUrl());
         p = petRepo.save(p);
         session.setCurrentPet(p);
         return p;
@@ -34,6 +42,19 @@ public class PetService {
     public Pet getPet() {
         return session.getCurrentPet();
     }
+
+    public List<Pet> getAllPets() {
+        return petRepo.findAll();
+    }
+
+
+    public Pet selectPet(Long id) {
+        Pet p = petRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown pet id: " + id));
+        session.setCurrentPet(p);
+        return p;
+    }
+
 
     public Pet performAction(String action) {
         Pet p = session.getCurrentPet();

@@ -68,7 +68,16 @@ public class Pet {
         this.state = state;
     }
 
-    /** expose just the name of the current state */
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    private String imageUrl;
+
     @JsonProperty("state")
     public String getStateName() {
         return (state == null ? "Unknown" : state.name());
